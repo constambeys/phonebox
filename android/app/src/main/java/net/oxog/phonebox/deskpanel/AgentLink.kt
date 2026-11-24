@@ -606,8 +606,7 @@ class AgentLink(private val context: Context) {
                 }
                 val j = JSONObject(c.inputStream.bufferedReader().readText())
                 if (!j.optString("fingerprint").equals(link.fingerprint, ignoreCase = true)) return PairFailure.WrongCertificate(link.pc)
-                val hosts = j.optJSONArray("hosts")?.let { a -> (0 until a.length()).map { a.getString(it) } }
-                    ?.filter { PairLink.isLocalAddress(it) }?.takeIf { it.isNotEmpty() } ?: link.hosts
+                val hosts = link.hosts
                 // the name the user confirmed; only an entry for this very certificate is replaced, never one that
                 // merely has the same name
                 val reportedMacs = WakePacket.macsFrom(j.optJSONArray("macs"))
